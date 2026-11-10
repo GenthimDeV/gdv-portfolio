@@ -4,11 +4,12 @@ import { getAlternates, localeLabels, useTranslations, type Locale, type RouteKe
 interface Props {
   route: RouteKey;
   locale: Locale;
+  projectSlug?: string;
 }
 
-const { route, locale } = Astro.props;
+const { route, locale, projectSlug } = Astro.props;
 const t = useTranslations(locale);
-const alternates = getAlternates(route);
+const alternates = getAlternates(route, projectSlug);
 ---
 
 <nav aria-label={t('lang.switch')}>

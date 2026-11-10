@@ -1,0 +1,31 @@
+---
+// Provisional: la plantilla real del caso de estudio llega en 3.3.
+import { render } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { projectSlug, type Project } from '../lib/projects';
+import type { Locale } from '../i18n';
+
+interface Props {
+  project: Project;
+  locale: Locale;
+}
+
+const { project, locale } = Astro.props;
+const { Content } = await render(project);
+---
+
+<BaseLayout
+  route="projects"
+  locale={locale}
+  projectSlug={projectSlug(project)}
+  title={`${project.data.title} · GenthimDeV`}
+  description={project.data.summary}
+>
+  <article class="mx-auto w-full max-w-3xl px-4 py-10 sm:px-6">
+    <h1 class="font-display text-4xl tracking-wide text-texto-claro uppercase sm:text-6xl">{project.data.title}</h1>
+    <p class="mt-4 text-texto-suave">{project.data.summary}</p>
+    <div class="mt-8 space-y-4 text-texto-suave">
+      <Content />
+    </div>
+  </article>
+</BaseLayout>

@@ -3,12 +3,13 @@ import { getAlternates, defaultLocale, localeLabels, type RouteKey } from '../i1
 
 interface Props {
   route: RouteKey;
+  projectSlug?: string;
 }
 
-const { route } = Astro.props;
+const { route, projectSlug } = Astro.props;
 // `hreflang` exige URL absolutas: requiere `site` (SITE_URL); sin él, se omite.
 const site = Astro.site;
-const alternates = getAlternates(route);
+const alternates = getAlternates(route, projectSlug);
 const defaultAlt = alternates.find((a) => a.locale === defaultLocale);
 ---
 

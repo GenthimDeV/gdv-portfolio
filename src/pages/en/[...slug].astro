@@ -1,18 +1,33 @@
 ---
 import HomePage from '../../components/HomePage.astro';
+import CaseStudyPage from '../../components/CaseStudyPage.astro';
 import PlaceholderPage from '../../components/PlaceholderPage.astro';
+import { getProjects, projectSlug } from '../../lib/projects';
 import { getSlug, routeKeys } from '../../i18n';
 
 const locale = 'en';
 
-export function getStaticPaths() {
-  return routeKeys.map((route) => ({
+export async function getStaticPaths() {
+  const pages = routeKeys.map((route) => ({
     params: { slug: getSlug(route, 'en') },
-    props: { route },
+    props: { route, project: undefined },
   }));
+  const cases = (await getProjects('en')).map((project) => ({
+    params: { slug: `${getSlug('projects', 'en')}/${projectSlug(project)}` },
+    props: { route: 'projects' as const, project },
+  }));
+  return [...pages, ...cases];
 }
 
-const { route } = Astro.props;
+const { route, project } = Astro.props;
 ---
 
-{route === 'home' ? <HomePage locale={locale} /> : <PlaceholderPage route={route} locale={locale} />}
+{
+  project ? (
+    <CaseStudyPage project={project} locale={locale} />
+  ) : route === 'home' ? (
+    <HomePage locale={locale} />
+  ) : (
+    <PlaceholderPage route={route} locale={locale} />
+  )
+}

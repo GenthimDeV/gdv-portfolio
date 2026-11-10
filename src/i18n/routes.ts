@@ -23,6 +23,11 @@ export function getRoutePath(key: RouteKey, locale: Locale): string {
   return `${base}${path}/`;
 }
 
+/** Ruta absoluta (con `base`) de un caso de estudio: `/en/projects/intranet/`. */
+export function getProjectPath(slug: string, locale: Locale): string {
+  return `${getRoutePath('projects', locale)}${slug}/`;
+}
+
 /** Ruta del CV en PDF (con `base`) en un idioma: `/cv/GenthimDeV-CV-en.pdf`. */
 export function getCvPath(locale: Locale): string {
   const base = import.meta.env.BASE_URL.replace(/\/$/, '');
@@ -39,7 +44,13 @@ export function getRouteKey(slug: string | undefined, locale: Locale): RouteKey 
   return routeKeys.find((key) => routes[key][locale] === (slug ?? ''));
 }
 
-/** Rutas equivalentes de una página en todos los idiomas (selector y `hreflang`). */
-export function getAlternates(key: RouteKey): { locale: Locale; path: string }[] {
-  return locales.map((locale) => ({ locale, path: getRoutePath(key, locale) }));
+/**
+ * Rutas equivalentes de una página en todos los idiomas (selector y `hreflang`).
+ * Con `projectSlug`, las del caso de estudio equivalente.
+ */
+export function getAlternates(key: RouteKey, projectSlug?: string): { locale: Locale; path: string }[] {
+  return locales.map((locale) => ({
+    locale,
+    path: projectSlug ? getProjectPath(projectSlug, locale) : getRoutePath(key, locale),
+  }));
 }
