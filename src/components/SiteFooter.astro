@@ -9,28 +9,30 @@ const { locale } = Astro.props;
 const t = useTranslations(locale);
 const email = 'genthimdev@gmail.com';
 const github = 'https://github.com/GenthimDeV';
+const link = 'py-2 text-caqui underline underline-offset-4 hover:text-texto-claro';
 ---
 
-<footer class="mt-16 border-t-2 border-plano-3 bg-fondo-profundo">
-  <div class="mx-auto max-w-6xl px-4 py-8 sm:px-6">
-    <section aria-labelledby="footer-contacto">
-      <h2 id="footer-contacto" class="font-display text-xl tracking-wide text-texto-claro uppercase">
-        {t('footer.label')}
-      </h2>
-      <p class="mt-2 text-texto-suave">{t('footer.text')}</p>
-      <ul class="mt-4 flex flex-wrap gap-x-6 gap-y-2">
+<footer id="contacto" class="border-t-2 border-plano-3 bg-fondo-profundo">
+  <div class="mx-auto max-w-6xl px-4 pt-16 pb-8 sm:px-6">
+    <section aria-labelledby="footer-contacto" class="flex flex-wrap justify-between gap-10">
+      <div class="flex min-w-0 flex-[1_1_340px] flex-col gap-4">
+        <h2 id="footer-contacto" class="font-display text-5xl leading-none text-texto-claro uppercase">
+          {t('footer.label')}
+        </h2>
+        <a href={`mailto:${email}`} class={`self-start font-mono text-[1.375rem] font-medium ${link}`}>
+          <span class="sr-only">{t('footer.email')}: </span>{email}
+        </a>
+      </div>
+      <ul class="flex flex-wrap items-end gap-x-7 gap-y-1 font-semibold">
         <li>
-          <a href={`mailto:${email}`} class="py-2 font-mono text-caqui underline underline-offset-4 hover:text-texto-claro">
-            <span class="sr-only">{t('footer.email')}: </span>{email}
+          <a href={github} class={link}>
+            <span class="sr-only">{t('footer.github')}: </span>GitHub
           </a>
         </li>
-        <li>
-          <a href={github} class="py-2 font-mono text-caqui underline underline-offset-4 hover:text-texto-claro">
-            <span class="sr-only">{t('footer.github')}: </span>github.com/GenthimDeV
-          </a>
-        </li>
+        <li><a href="#" class={link}>{t('footer.cv.es')}</a></li>
+        <li><a href="#" class={link}>{t('footer.cv.en')}</a></li>
       </ul>
     </section>
-    <p class="mt-6 text-sm text-texto-apagado">© {new Date().getFullYear()} {t('site.name')}. {t('footer.rights')}</p>
+    <p class="mt-10 font-mono text-xs text-texto-apagado">© {new Date().getFullYear()} {t('site.name')} · {t('footer.place')}</p>
   </div>
 </footer>

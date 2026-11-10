@@ -1,0 +1,77 @@
+---
+// Proyectos destacados: tres casos alternados, con captura en ventana D (marcador mientras no existan capturas).
+import WindowD from './WindowD.astro';
+import { getRoutePath, useTranslations, type DictionaryKey, type Locale } from '../i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+
+interface Project {
+  n: string;
+  meta: DictionaryKey;
+  title: DictionaryKey;
+  desc: DictionaryKey;
+  shot: DictionaryKey;
+  stack: string;
+  live: DictionaryKey;
+  tone: 'plano' | 'plano-2';
+}
+
+const projects: Project[] = [
+  { n: '01', meta: 'projects.1.meta', title: 'projects.1.title', desc: 'projects.1.desc', shot: 'projects.1.shot', stack: 'React · Django REST Framework · PostgreSQL', live: 'projects.demo', tone: 'plano' },
+  { n: '02', meta: 'projects.2.meta', title: 'projects.2.title', desc: 'projects.2.desc', shot: 'projects.2.shot', stack: 'React · Django REST Framework', live: 'projects.demo', tone: 'plano-2' },
+  { n: '03', meta: 'projects.3.meta', title: 'projects.3.title', desc: 'projects.3.desc', shot: 'projects.3.shot', stack: 'Astro · Tailwind CSS', live: 'projects.view', tone: 'plano' },
+];
+
+const link = 'py-2 text-caqui underline underline-offset-4 hover:text-texto-claro';
+---
+
+<section id="proyectos" aria-labelledby="proyectos-titulo" class="bg-fondo-profundo py-20 sm:py-26">
+  <div class="mx-auto flex w-full max-w-6xl flex-col gap-16 px-4 sm:gap-18 sm:px-6">
+    <div class="flex flex-wrap items-end justify-between gap-4">
+      <h2
+        id="proyectos-titulo"
+        class="font-display text-[clamp(2.75rem,5vw,4.5rem)] leading-none text-texto-claro uppercase"
+      >
+        {t('projects.title')}
+      </h2>
+      <a href={getRoutePath('projects', locale)} class={`font-semibold ${link}`}>
+        {t('projects.all')} <span aria-hidden="true">→</span>
+      </a>
+    </div>
+
+    {
+      projects.map((p, i) => {
+        const reverse = i % 2 === 1;
+        return (
+          <article class={`flex items-center gap-12 ${reverse ? 'flex-wrap-reverse' : 'flex-wrap'}`}>
+            <div class={`min-w-0 flex-[1_1_480px] ${reverse ? 'order-2' : ''}`}>
+              <WindowD tone={p.tone} shadow={reverse ? 'left' : 'right'}>
+                <span class="px-4 text-center font-mono text-sm text-texto-apagado">{t(p.shot)}</span>
+              </WindowD>
+            </div>
+            <div class={`flex min-w-0 flex-[1_1_340px] flex-col gap-4 ${reverse ? 'order-1' : ''}`}>
+              <p class="font-mono text-xs tracking-[2px] text-caqui uppercase">
+                {p.n} · {t(p.meta)}
+              </p>
+              <h3 class="font-display text-[2.5rem] leading-[1.05] text-texto-claro uppercase">{t(p.title)}</h3>
+              <p class="text-[1.0625rem] leading-relaxed text-texto-suave">{t(p.desc)}</p>
+              <p class="font-mono text-[13px] text-texto-apagado">{p.stack}</p>
+              <div class="flex flex-wrap gap-x-5 gap-y-1 pt-1 text-[15px] font-semibold">
+                <a href={getRoutePath('projects', locale)} class={link}>
+                  {t('projects.case')} <span aria-hidden="true">→</span>
+                </a>
+                <a href="#" class={link}>{t(p.live)}</a>
+                <a href="#" class={link}>{t('projects.code')}</a>
+              </div>
+            </div>
+          </article>
+        );
+      })
+    }
+  </div>
+</section>

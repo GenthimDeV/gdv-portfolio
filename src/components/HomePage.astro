@@ -1,7 +1,10 @@
 ---
-// Inicio: se irá completando con las secciones de 2.3.
+// Inicio: hero, proyectos destacados, Sobre mí, adelanto del Laboratorio (el pie lo pone el layout).
 import BaseLayout from '../layouts/BaseLayout.astro';
+import AboutTeaser from './AboutTeaser.astro';
 import Hero from './Hero.astro';
+import LabTeaser from './LabTeaser.astro';
+import Projects from './Projects.astro';
 import type { Locale } from '../i18n';
 
 interface Props {
@@ -12,5 +15,10 @@ const { locale } = Astro.props;
 ---
 
 <BaseLayout route="home" locale={locale}>
-  <Hero locale={locale} />
+  <div class="mx-auto w-full max-w-6xl px-4 pt-10 sm:px-6">
+    <Hero locale={locale} />
+  </div>
+  <Projects locale={locale} />
+  <AboutTeaser locale={locale} />
+  <LabTeaser locale={locale} />
 </BaseLayout>

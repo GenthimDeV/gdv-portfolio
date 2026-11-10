@@ -1,0 +1,32 @@
+---
+// Sobre mí breve, invertido: banda caqui con texto oscuro.
+import { getRoutePath, useTranslations, type Locale } from '../i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<section id="sobre-mi" aria-labelledby="sobre-titulo" class="bg-caqui py-20 text-fondo-profundo sm:py-26">
+  <div class="mx-auto flex w-full max-w-6xl flex-wrap items-start gap-14 px-4 sm:px-6">
+    <h2
+      id="sobre-titulo"
+      class="flex-[1_1_280px] font-display text-[clamp(2.75rem,5vw,4.5rem)] leading-none uppercase"
+    >
+      {t('about.title')}
+    </h2>
+    <div class="flex min-w-0 flex-[2_1_480px] flex-col gap-5">
+      <p class="text-[1.375rem] leading-normal font-medium">{t('about.lead')}</p>
+      <p class="text-[1.0625rem] leading-relaxed">{t('about.body')}</p>
+      <a
+        href={getRoutePath('about', locale)}
+        class="self-start py-2 text-base font-semibold underline underline-offset-4 hover:no-underline focus-visible:outline-fondo-profundo"
+      >
+        {t('about.more')} <span aria-hidden="true">→</span>
+      </a>
+    </div>
+  </div>
+</section>

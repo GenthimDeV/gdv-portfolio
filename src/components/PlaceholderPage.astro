@@ -13,6 +13,8 @@ const t = useTranslations(locale);
 ---
 
 <BaseLayout route={route} locale={locale}>
-  <h1 class="font-display text-4xl tracking-wide text-texto-claro uppercase sm:text-6xl">{t(`page.${route}.title`)}</h1>
-  <p class="mt-4 text-texto-suave">{t('page.placeholder')}</p>
+  <div class="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6">
+    <h1 class="font-display text-4xl tracking-wide text-texto-claro uppercase sm:text-6xl">{t(`page.${route}.title`)}</h1>
+    <p class="mt-4 text-texto-suave">{t('page.placeholder')}</p>
+  </div>
 </BaseLayout>

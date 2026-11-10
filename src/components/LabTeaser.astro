@@ -1,0 +1,37 @@
+---
+// Adelanto del Laboratorio: texto y tres planos en D que se agrandan hacia la puerta.
+import { getRoutePath, useTranslations, type Locale } from '../i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const d = 'rounded-[3px_40%_40%_3px/3px_14%_14%_3px]';
+---
+
+<section
+  id="laboratorio"
+  aria-labelledby="lab-titulo"
+  class="mx-auto flex w-full max-w-6xl flex-wrap items-center gap-12 px-4 py-20 sm:px-6 sm:py-26"
+>
+  <div class="flex min-w-0 flex-[1_1_340px] flex-col gap-4">
+    <p class="font-mono text-xs tracking-[2px] text-caqui uppercase">{t('lab.eyebrow')}</p>
+    <h2 id="lab-titulo" class="font-display text-[2.5rem] leading-[1.05] text-texto-claro uppercase">{t('lab.title')}</h2>
+    <p class="text-[1.0625rem] leading-relaxed text-texto-suave">{t('lab.text')}</p>
+    <a
+      href={getRoutePath('lab', locale)}
+      class="self-start py-2 text-[15px] font-semibold text-caqui underline underline-offset-4 hover:text-texto-claro"
+    >
+      {t('lab.link')} <span aria-hidden="true">→</span>
+    </a>
+  </div>
+  <div aria-hidden="true" class="flex h-60 min-w-0 flex-[1_1_380px] items-center justify-center">
+    <div class={`h-[180px] w-14 bg-plano shadow-corte-sm ${d}`}></div>
+    <div class={`-ml-[18px] h-[200px] w-[92px] bg-plano-3 shadow-corte-sm ${d}`}></div>
+    <div class={`-ml-7 flex h-[220px] w-[136px] items-center justify-center bg-caqui shadow-corte-sm ${d}`}>
+      <div class="h-[64%] w-[46%] rounded-[2px_40%_40%_2px/2px_14%_14%_2px] bg-texto-claro"></div>
+    </div>
+  </div>
+</section>
