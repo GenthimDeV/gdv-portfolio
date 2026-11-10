@@ -1,0 +1,25 @@
+---
+import { getAlternates, defaultLocale, localeLabels, type RouteKey } from '../i18n';
+
+interface Props {
+  route: RouteKey;
+}
+
+const { route } = Astro.props;
+// `hreflang` exige URL absolutas: requiere `site` (SITE_URL); sin él, se omite.
+const site = Astro.site;
+const alternates = getAlternates(route);
+const defaultAlt = alternates.find((a) => a.locale === defaultLocale);
+---
+
+{
+  site && (
+    <>
+      {alternates.map(({ locale, path }) => (
+        <link rel="alternate" hreflang={localeLabels[locale].hreflang} href={new URL(path, site).href} />
+      ))}
+      {defaultAlt && <link rel="alternate" hreflang="x-default" href={new URL(defaultAlt.path, site).href} />}
+      <link rel="canonical" href={new URL(Astro.url.pathname, site).href} />
+    </>
+  )
+}

@@ -1,0 +1,47 @@
+---
+// Provisional: 1.5 lo sustituye por BaseLayout (header, footer, skip link).
+import '../styles/global.css';
+import LanguageSwitcher from './LanguageSwitcher.astro';
+import LocaleHead from './LocaleHead.astro';
+import { getRoutePath, useTranslations, type Locale, type RouteKey } from '../i18n';
+
+interface Props {
+  route: RouteKey;
+  locale: Locale;
+}
+
+const { route, locale } = Astro.props;
+const t = useTranslations(locale);
+const nav = [
+  ['projects', 'nav.projects'],
+  ['lab', 'nav.lab'],
+  ['about', 'nav.about'],
+] as const;
+const base = import.meta.env.BASE_URL;
+---
+
+<html lang={locale}>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
+    <link rel="icon" href={`${base}favicon.ico`} />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={t('site.description')} />
+    <title>{route === 'home' ? t('site.name') : `${t(`page.${route}.title`)} · ${t('site.name')}`}</title>
+    <LocaleHead route={route} />
+  </head>
+  <body>
+    <header>
+      <a href={getRoutePath('home', locale)}>{t('site.name')}</a>
+      <nav aria-label={t('nav.label')}>
+        {nav.map(([key, label]) => <a href={getRoutePath(key, locale)}>{t(label)}</a>)}
+      </nav>
+      <LanguageSwitcher route={route} locale={locale} />
+    </header>
+    <main>
+      <h1>{t(`page.${route}.title`)}</h1>
+      <p>{t('page.placeholder')}</p>
+    </main>
+  </body>
+</html>

@@ -11,6 +11,11 @@ const base = process.env.BASE_PATH ?? '/';
 export default defineConfig({
   ...(site ? { site } : {}),
   base,
+  i18n: {
+    defaultLocale: 'es',
+    locales: ['es', 'en'],
+    routing: { prefixDefaultLocale: false },
+  },
   vite: {
     plugins: [tailwindcss()],
   },

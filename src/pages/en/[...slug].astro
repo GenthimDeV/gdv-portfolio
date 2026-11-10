@@ -1,0 +1,17 @@
+---
+import PlaceholderPage from '../../components/PlaceholderPage.astro';
+import { getSlug, routeKeys } from '../../i18n';
+
+const locale = 'en';
+
+export function getStaticPaths() {
+  return routeKeys.map((route) => ({
+    params: { slug: getSlug(route, 'en') },
+    props: { route },
+  }));
+}
+
+const { route } = Astro.props;
+---
+
+<PlaceholderPage route={route} locale={locale} />

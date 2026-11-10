@@ -1,0 +1,32 @@
+---
+import { getAlternates, localeLabels, useTranslations, type Locale, type RouteKey } from '../i18n';
+
+interface Props {
+  route: RouteKey;
+  locale: Locale;
+}
+
+const { route, locale } = Astro.props;
+const t = useTranslations(locale);
+const alternates = getAlternates(route);
+---
+
+<nav aria-label={t('lang.switch')}>
+  <ul>
+    {
+      alternates.map((alt) => (
+        <li>
+          <a
+            href={alt.path}
+            hreflang={localeLabels[alt.locale].hreflang}
+            lang={alt.locale}
+            aria-current={alt.locale === locale ? 'true' : undefined}
+            aria-label={localeLabels[alt.locale].name}
+          >
+            {alt.locale.toUpperCase()}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>
