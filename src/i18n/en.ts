@@ -38,6 +38,10 @@ export const en: Record<DictionaryKey, string> = {
   'about.body':
     'I work with React, Django and PostgreSQL, and I want to understand every system I build in depth, not just make it work.',
   'about.more': 'More about me',
+  'about.path.title': 'Background',
+  'about.path.pending': '[...] Studies, first projects and what I am looking for now.',
+  'about.tech.title': 'Technologies',
+  'about.tech.lead': 'Only the ones I have used, each with the projects that show it.',
   'lab.eyebrow': 'Lab · Experiment 01',
   'lab.title': 'Through the D',
   'lab.text':

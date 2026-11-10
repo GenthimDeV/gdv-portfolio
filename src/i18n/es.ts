@@ -36,6 +36,10 @@ export const es = {
   'about.body':
     'Trabajo con React, Django y PostgreSQL, y me interesa entender a fondo cada sistema que construyo, no solo que funcione.',
   'about.more': 'Más sobre mí',
+  'about.path.title': 'Trayectoria',
+  'about.path.pending': '[...] Estudios, primeros proyectos y lo que busco ahora.',
+  'about.tech.title': 'Tecnologías',
+  'about.tech.lead': 'Solo las que he usado, cada una con los proyectos que lo demuestran.',
   'lab.eyebrow': 'Laboratorio · Experimento 01',
   'lab.title': 'Atravesar la D',
   'lab.text':

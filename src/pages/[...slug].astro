@@ -1,6 +1,7 @@
 ---
 import HomePage from '../components/HomePage.astro';
 import CaseStudyPage from '../components/CaseStudyPage.astro';
+import AboutPage from '../components/AboutPage.astro';
 import ProjectsPage from '../components/ProjectsPage.astro';
 import PlaceholderPage from '../components/PlaceholderPage.astro';
 import { getProjects, projectSlug } from '../lib/projects';
@@ -28,6 +29,8 @@ const { route, project } = Astro.props;
     <CaseStudyPage project={project} locale={locale} />
   ) : route === 'projects' ? (
     <ProjectsPage locale={locale} />
+  ) : route === 'about' ? (
+    <AboutPage locale={locale} />
   ) : route === 'home' ? (
     <HomePage locale={locale} />
   ) : (

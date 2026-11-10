@@ -53,6 +53,17 @@ export async function getProjects(locale: Locale): Promise<Project[]> {
     .sort((a, b) => a.data.order - b.data.order);
 }
 
+/** Tecnologías del `stack` de los proyectos, cada una con los proyectos que la usan (orden de aparición). */
+export async function getTechnologies(locale: Locale): Promise<{ name: string; projects: Project[] }[]> {
+  const byTech = new Map<string, Project[]>();
+  for (const project of await getProjects(locale)) {
+    for (const name of project.data.stack) {
+      byTech.set(name, [...(byTech.get(name) ?? []), project]);
+    }
+  }
+  return [...byTech].map(([name, projects]) => ({ name, projects }));
+}
+
 /** Proyectos destacados de un idioma (Inicio), ordenados por `order`. */
 export async function getFeaturedProjects(locale: Locale): Promise<Project[]> {
   return (await getProjects(locale)).filter((entry) => entry.data.featured);
