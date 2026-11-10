@@ -13,13 +13,13 @@ interface Props {
   locale: Locale;
   title?: string;
   description?: string;
-  /** Slug del caso de estudio, si la página lo es: el selector y `hreflang` apuntan a su equivalente. */
-  projectSlug?: string;
+  /** Slug del caso de estudio o experimento, si la página lo es: el selector y `hreflang` apuntan a su equivalente. */
+  entrySlug?: string;
   /** Página 404: sin canonical ni `hreflang`, y con `noindex`. */
   notFound?: boolean;
 }
 
-const { route, locale, projectSlug, notFound = false } = Astro.props;
+const { route, locale, entrySlug, notFound = false } = Astro.props;
 const t = useTranslations(locale);
 const base = import.meta.env.BASE_URL;
 const title = Astro.props.title ?? (route === 'home' ? t('site.name') : `${t(`page.${route}.title`)} · ${t('site.name')}`);
@@ -54,7 +54,7 @@ const description = Astro.props.description ?? t('site.description');
         </script>
       )
     }
-    {notFound ? <meta name="robots" content="noindex" /> : <LocaleHead route={route} projectSlug={projectSlug} />}
+    {notFound ? <meta name="robots" content="noindex" /> : <LocaleHead route={route} entrySlug={entrySlug} />}
   </head>
   <body class="flex min-h-screen flex-col overflow-x-clip">
     <a
@@ -63,7 +63,7 @@ const description = Astro.props.description ?? t('site.description');
     >
       {t('a11y.skip')}
     </a>
-    <SiteHeader route={route} locale={locale} projectSlug={projectSlug} />
+    <SiteHeader route={route} locale={locale} entrySlug={entrySlug} />
     <main id="contenido" tabindex="-1" class="w-full flex-1">
       <slot />
     </main>

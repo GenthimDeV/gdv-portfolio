@@ -46,6 +46,9 @@ export const en: Record<DictionaryKey, string> = {
   'lab.title': 'Through the D',
   'lab.text':
     'A change of scale made with planes: the logo opening becomes a door. It is the test of the experience that will come to the hero.',
+  'lab.back': 'All of the lab',
+  'lab.index.lead': 'Small interface and motion tests, made with planes and no libraries.',
+  'lab.n': 'Experiment',
   'lab.link': 'See the experiment',
   'hero.eyebrow': 'Full-stack developer · Havana, Cuba',
   'hero.title': 'I find order in complex systems.',
@@ -59,7 +62,6 @@ export const en: Record<DictionaryKey, string> = {
   'page.projects.title': 'Projects',
   'page.lab.title': 'Lab',
   'page.about.title': 'About',
-  'page.placeholder': '[...] Content pending.',
   'notfound.title': 'Page not found',
   'notfound.text': 'This address does not exist or has moved.',
   'notfound.home': 'Back to home',

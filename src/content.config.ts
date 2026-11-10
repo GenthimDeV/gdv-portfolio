@@ -31,4 +31,20 @@ const projects = defineCollection({
   }),
 });
 
-export const collections = { projects };
+/**
+ * Experimentos del Laboratorio: un archivo por experimento e idioma en
+ * `src/content/experiments/<locale>/<slug>.md`. Igual que los proyectos, el idioma sale
+ * de la carpeta y el slug del nombre de archivo (igual en ES y EN). El cuerpo es la explicación.
+ */
+const experiments = defineCollection({
+  loader: glob({ base: './src/content/experiments', pattern: '**/*.md' }),
+  schema: z.object({
+    title: z.string(),
+    /** Descripción breve del índice y de la cabecera. */
+    summary: z.string(),
+    /** Posición en el índice; también su número ("Experimento 01"). */
+    order: z.number().int(),
+  }),
+});
+
+export const collections = { projects, experiments };

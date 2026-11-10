@@ -1,0 +1,44 @@
+---
+// Índice del Laboratorio: un experimento por entrada de la colección.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getExperimentPath, useTranslations, type Locale } from '../i18n';
+import { experimentSlug, getExperiments } from '../lib/experiments';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const experiments = await getExperiments(locale);
+---
+
+<BaseLayout route="lab" locale={locale}>
+  <div class="mx-auto flex w-full max-w-6xl flex-col gap-10 px-4 py-10 sm:px-6 sm:py-16">
+    <header class="flex flex-col gap-4">
+      <h1 class="font-display text-[clamp(2.75rem,7vw,4.5rem)] leading-none text-texto-claro uppercase">
+        {t('page.lab.title')}
+      </h1>
+      <p class="max-w-2xl text-[1.0625rem] leading-relaxed text-texto-suave">{t('lab.index.lead')}</p>
+    </header>
+    <ul class="flex flex-col gap-10">
+      {
+        experiments.map((experiment) => (
+          <li class="flex flex-col gap-4 border-t border-texto-apagado/40 pt-8">
+            <p class="font-mono text-xs tracking-[2px] text-caqui uppercase">
+              {t('lab.n')} {String(experiment.data.order).padStart(2, '0')}
+            </p>
+            <h2 class="font-display text-[2.5rem] leading-[1.05] text-texto-claro uppercase">{experiment.data.title}</h2>
+            <p class="max-w-2xl text-[1.0625rem] leading-relaxed text-texto-suave">{experiment.data.summary}</p>
+            <a
+              href={getExperimentPath(experimentSlug(experiment), locale)}
+              class="self-start py-2 text-[15px] font-semibold text-caqui underline underline-offset-4 hover:text-texto-claro"
+            >
+              {t('lab.link')} <span aria-hidden="true">→</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</BaseLayout>

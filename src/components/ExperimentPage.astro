@@ -1,0 +1,52 @@
+---
+// Plantilla de un experimento: cabecera y cuerpo Markdown. El experimento interactivo se añade en 4.3.
+import { render } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getRoutePath, useTranslations, type Locale } from '../i18n';
+import { experimentSlug, type Experiment } from '../lib/experiments';
+
+interface Props {
+  experiment: Experiment;
+  locale: Locale;
+}
+
+const { experiment, locale } = Astro.props;
+const { data: e } = experiment;
+const t = useTranslations(locale);
+const { Content } = await render(experiment);
+
+// El Markdown no lleva clases: se estiliza aquí por selectores del contenedor.
+const prose = [
+  'space-y-4 text-[1.0625rem] leading-relaxed text-texto-suave',
+  '[&_h2]:mt-12 [&_h2]:mb-2 [&_h2]:font-display [&_h2]:text-3xl [&_h2]:leading-none [&_h2]:text-texto-claro [&_h2]:uppercase sm:[&_h2]:text-4xl',
+  '[&_a]:text-caqui [&_a]:underline [&_a]:underline-offset-4 [&_a:hover]:text-texto-claro',
+  '[&_strong]:text-texto-claro [&_code]:font-mono [&_code]:text-[0.9em] [&_code]:text-texto-claro',
+].join(' ');
+---
+
+<BaseLayout
+  route="lab"
+  locale={locale}
+  entrySlug={experimentSlug(experiment)}
+  title={`${e.title} · GenthimDeV`}
+  description={e.summary}
+>
+  <article class="mx-auto w-full max-w-4xl px-4 py-10 sm:px-6 sm:py-16">
+    <a
+      href={getRoutePath('lab', locale)}
+      class="inline-block py-2 text-[15px] font-semibold text-caqui underline underline-offset-4 hover:text-texto-claro"
+    >
+      <span aria-hidden="true">←</span> {t('lab.back')}
+    </a>
+    <header class="mt-6">
+      <p class="font-mono text-xs tracking-[2px] text-caqui uppercase">
+        {t('lab.n')} {String(e.order).padStart(2, '0')}
+      </p>
+      <h1 class="mt-3 font-display text-[clamp(2.75rem,7vw,4.5rem)] leading-none text-texto-claro uppercase">{e.title}</h1>
+      <p class="mt-5 max-w-2xl text-[1.0625rem] leading-relaxed text-texto-suave">{e.summary}</p>
+    </header>
+    <div class={`mt-12 ${prose}`}>
+      <Content />
+    </div>
+  </article>
+</BaseLayout>

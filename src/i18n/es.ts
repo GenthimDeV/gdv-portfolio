@@ -44,6 +44,9 @@ export const es = {
   'lab.title': 'Atravesar la D',
   'lab.text':
     'Un cambio de escala hecho con planos: la abertura del logo se convierte en una puerta. Es la prueba de la experiencia que vendrá en el hero.',
+  'lab.back': 'Todo el laboratorio',
+  'lab.index.lead': 'Pruebas pequeñas de interfaz y movimiento, hechas con planos y sin librerías.',
+  'lab.n': 'Experimento',
   'lab.link': 'Ver el experimento',
   'hero.eyebrow': 'Desarrollador full-stack · La Habana, Cuba',
   'hero.title': 'Encuentro el orden en sistemas complejos.',
@@ -57,7 +60,6 @@ export const es = {
   'page.projects.title': 'Proyectos',
   'page.lab.title': 'Laboratorio',
   'page.about.title': 'Sobre mí',
-  'page.placeholder': '[...] Contenido pendiente.',
   'notfound.title': 'Página no encontrada',
   'notfound.text': 'La dirección no existe o ha cambiado de lugar.',
   'notfound.home': 'Volver al inicio',

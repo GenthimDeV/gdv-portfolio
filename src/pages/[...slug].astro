@@ -3,7 +3,9 @@ import HomePage from '../components/HomePage.astro';
 import CaseStudyPage from '../components/CaseStudyPage.astro';
 import AboutPage from '../components/AboutPage.astro';
 import ProjectsPage from '../components/ProjectsPage.astro';
-import PlaceholderPage from '../components/PlaceholderPage.astro';
+import LabPage from '../components/LabPage.astro';
+import ExperimentPage from '../components/ExperimentPage.astro';
+import { experimentSlug, getExperiments } from '../lib/experiments';
 import { getProjects, projectSlug } from '../lib/projects';
 import { getSlug, routeKeys } from '../i18n';
 
@@ -12,28 +14,34 @@ const locale = 'es';
 export async function getStaticPaths() {
   const pages = routeKeys.map((route) => ({
     params: { slug: getSlug(route, 'es') },
-    props: { route, project: undefined },
+    props: { route, project: undefined, experiment: undefined },
   }));
   const cases = (await getProjects('es')).map((project) => ({
     params: { slug: `${getSlug('projects', 'es')}/${projectSlug(project)}` },
-    props: { route: 'projects' as const, project },
+    props: { route: 'projects' as const, project, experiment: undefined },
   }));
-  return [...pages, ...cases];
+  const experiments = (await getExperiments('es')).map((experiment) => ({
+    params: { slug: `${getSlug('lab', 'es')}/${experimentSlug(experiment)}` },
+    props: { route: 'lab' as const, project: undefined, experiment },
+  }));
+  return [...pages, ...cases, ...experiments];
 }
 
-const { route, project } = Astro.props;
+const { route, project, experiment } = Astro.props;
 ---
 
 {
   project ? (
     <CaseStudyPage project={project} locale={locale} />
+  ) : experiment ? (
+    <ExperimentPage experiment={experiment} locale={locale} />
   ) : route === 'projects' ? (
     <ProjectsPage locale={locale} />
+  ) : route === 'lab' ? (
+    <LabPage locale={locale} />
   ) : route === 'about' ? (
     <AboutPage locale={locale} />
-  ) : route === 'home' ? (
-    <HomePage locale={locale} />
   ) : (
-    <PlaceholderPage route={route} locale={locale} />
+    <HomePage locale={locale} />
   )
 }
