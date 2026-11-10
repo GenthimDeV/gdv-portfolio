@@ -1,0 +1,57 @@
+---
+// Casos alternados con captura en ventana D (marcador mientras no existan capturas).
+// Compartido por el Inicio (destacados) y el listado. Demo y código solo se muestran si tienen URL.
+import WindowD from './WindowD.astro';
+import { getProjectPath, useTranslations, type Locale } from '../i18n';
+import { projectSlug, type Project } from '../lib/projects';
+
+interface Props {
+  projects: Project[];
+  locale: Locale;
+}
+
+const { projects, locale } = Astro.props;
+const t = useTranslations(locale);
+
+const link = 'py-2 text-caqui underline underline-offset-4 hover:text-texto-claro';
+---
+
+{
+  projects.map((project, i) => {
+    const p = project.data;
+    const reverse = i % 2 === 1;
+    const n = String(i + 1).padStart(2, '0');
+    return (
+      <article class={`flex items-center gap-12 ${reverse ? 'flex-wrap-reverse' : 'flex-wrap'}`}>
+        <div class={`min-w-0 flex-[1_1_480px] ${reverse ? 'order-2' : ''}`}>
+          <WindowD tone={reverse ? 'plano-2' : 'plano'} shadow={reverse ? 'left' : 'right'}>
+            <span class="px-4 text-center font-mono text-sm text-texto-apagado">{p.screenshotAlt}</span>
+          </WindowD>
+        </div>
+        <div class={`flex min-w-0 flex-[1_1_340px] flex-col gap-4 ${reverse ? 'order-1' : ''}`}>
+          <p class="font-mono text-xs tracking-[2px] text-caqui uppercase">
+            {n} · {p.kind}
+          </p>
+          <h3 class="font-display text-[2.5rem] leading-[1.05] text-texto-claro uppercase">{p.title}</h3>
+          <p class="text-[1.0625rem] leading-relaxed text-texto-suave">{p.summary}</p>
+          <p class="font-mono text-[13px] text-texto-apagado">{p.stack.join(' · ')}</p>
+          <div class="flex flex-wrap gap-x-5 gap-y-1 pt-1 text-[15px] font-semibold">
+            <a href={getProjectPath(projectSlug(project), locale)} class={link}>
+              {t('projects.case')} <span aria-hidden="true">→</span>
+            </a>
+            {p.demoUrl && (
+              <a href={p.demoUrl} class={link} rel="noopener">
+                {t(p.liveLabel === 'view' ? 'projects.view' : 'projects.demo')}
+              </a>
+            )}
+            {p.codeUrl && (
+              <a href={p.codeUrl} class={link} rel="noopener">
+                {t('projects.code')}
+              </a>
+            )}
+          </div>
+        </div>
+      </article>
+    );
+  })
+}
