@@ -1,0 +1,25 @@
+---
+// Cloudflare Pages sirve el `404.html` más cercano a la ruta pedida: `/404.html` (ES)
+// y `/en/404.html` (EN). El selector de idioma conserva la ruta (ver BaseLayout).
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ButtonD from './ButtonD.astro';
+import { getRoutePath, useTranslations, type Locale } from '../i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<BaseLayout route="home" locale={locale} title={`${t('notfound.title')} · ${t('site.name')}`} notFound>
+  <div class="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6">
+    <p class="font-mono text-sm text-caqui">404</p>
+    <h1 class="mt-4 font-display text-4xl tracking-wide text-texto-claro uppercase sm:text-6xl">{t('notfound.title')}</h1>
+    <p class="mt-4 text-texto-suave">{t('notfound.text')}</p>
+    <div class="mt-6">
+      <ButtonD href={getRoutePath('home', locale)}>{t('notfound.home')}</ButtonD>
+    </div>
+  </div>
+</BaseLayout>

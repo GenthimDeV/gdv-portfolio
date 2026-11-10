@@ -8,9 +8,11 @@ import { projectSlug, type Project } from '../lib/projects';
 interface Props {
   projects: Project[];
   locale: Locale;
+  /** Nivel del título de cada caso: h2 si el título de la página es h1, h3 bajo el h2 del Inicio. */
+  headingLevel?: 'h2' | 'h3';
 }
 
-const { projects, locale } = Astro.props;
+const { projects, locale, headingLevel: Heading = 'h3' } = Astro.props;
 const t = useTranslations(locale);
 
 const link = 'py-2 text-caqui underline underline-offset-4 hover:text-texto-claro';
@@ -32,7 +34,7 @@ const link = 'py-2 text-caqui underline underline-offset-4 hover:text-texto-clar
           <p class="font-mono text-xs tracking-[2px] text-caqui uppercase">
             {n} · {p.kind}
           </p>
-          <h3 class="font-display text-[2.5rem] leading-[1.05] text-texto-claro uppercase">{p.title}</h3>
+          <Heading class="font-display text-[2.5rem] leading-[1.05] text-texto-claro uppercase">{p.title}</Heading>
           <p class="text-[1.0625rem] leading-relaxed text-texto-suave">{p.summary}</p>
           <p class="font-mono text-[13px] text-texto-apagado">{p.stack.join(' · ')}</p>
           <div class="flex flex-wrap gap-x-5 gap-y-1 pt-1 text-[15px] font-semibold">

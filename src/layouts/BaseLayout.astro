@@ -3,6 +3,9 @@ import '../styles/global.css';
 import LocaleHead from '../components/LocaleHead.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import SiteHeader from '../components/SiteHeader.astro';
+// Precarga de las dos fuentes de la primera pantalla: evita el salto de diseño al sustituir la fuente de respaldo.
+import antonUrl from '@fontsource/anton/files/anton-latin-400-normal.woff2?url';
+import interUrl from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
 import { useTranslations, type Locale, type RouteKey } from '../i18n';
 
 interface Props {
@@ -12,9 +15,11 @@ interface Props {
   description?: string;
   /** Slug del caso de estudio, si la página lo es: el selector y `hreflang` apuntan a su equivalente. */
   projectSlug?: string;
+  /** Página 404: sin canonical ni `hreflang`, y con `noindex`. */
+  notFound?: boolean;
 }
 
-const { route, locale, projectSlug } = Astro.props;
+const { route, locale, projectSlug, notFound = false } = Astro.props;
 const t = useTranslations(locale);
 const base = import.meta.env.BASE_URL;
 const title = Astro.props.title ?? (route === 'home' ? t('site.name') : `${t(`page.${route}.title`)} · ${t('site.name')}`);
@@ -29,8 +34,27 @@ const description = Astro.props.description ?? t('site.description');
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description} />
+    <link rel="preload" href={antonUrl} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={interUrl} as="font" type="font/woff2" crossorigin />
     <title>{title}</title>
-    <LocaleHead route={route} projectSlug={projectSlug} />
+    {
+      notFound && locale === 'es' && (
+        <script is:inline>
+          // Respaldo: si el alojamiento sirve esta 404 para una ruta /en/..., se carga la versión inglesa.
+          (function () {
+            var p = location.pathname;
+            if (p !== '/en' && p.indexOf('/en/') !== 0) return;
+            var d = document.documentElement;
+            d.style.visibility = 'hidden';
+            fetch('/en/404/')
+              .then(function (r) { return r.text(); })
+              .then(function (h) { document.open(); document.write(h); document.close(); })
+              .catch(function () { d.style.visibility = ''; });
+          })();
+        </script>
+      )
+    }
+    {notFound ? <meta name="robots" content="noindex" /> : <LocaleHead route={route} projectSlug={projectSlug} />}
   </head>
   <body class="flex min-h-screen flex-col overflow-x-clip">
     <a
@@ -44,5 +68,17 @@ const description = Astro.props.description ?? t('site.description');
       <slot />
     </main>
     <SiteFooter locale={locale} />
+    {
+      notFound && (
+        <script is:inline>
+          // En la 404 el selector conserva la ruta pedida: solo cambia el prefijo de idioma.
+          var p = location.pathname;
+          var rest = p === '/en' || p.indexOf('/en/') === 0 ? p.slice(3) || '/' : p;
+          document.querySelectorAll('header a[hreflang]').forEach(function (a) {
+            a.setAttribute('href', a.getAttribute('hreflang') === 'en' ? '/en' + rest : rest);
+          });
+        </script>
+      )
+    }
   </body>
 </html>

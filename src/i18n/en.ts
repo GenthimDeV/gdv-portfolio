@@ -60,4 +60,7 @@ export const en: Record<DictionaryKey, string> = {
   'page.lab.title': 'Lab',
   'page.about.title': 'About',
   'page.placeholder': '[...] Content pending.',
+  'notfound.title': 'Page not found',
+  'notfound.text': 'This address does not exist or has moved.',
+  'notfound.home': 'Back to home',
 };

@@ -58,6 +58,9 @@ export const es = {
   'page.lab.title': 'Laboratorio',
   'page.about.title': 'Sobre mí',
   'page.placeholder': '[...] Contenido pendiente.',
+  'notfound.title': 'Página no encontrada',
+  'notfound.text': 'La dirección no existe o ha cambiado de lugar.',
+  'notfound.home': 'Volver al inicio',
 } as const;
 
 export type DictionaryKey = keyof typeof es;

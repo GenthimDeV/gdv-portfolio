@@ -23,7 +23,7 @@ const alternates = getAlternates(route, projectSlug);
             hreflang={localeLabels[alt.locale].hreflang}
             lang={alt.locale}
             aria-current={alt.locale === locale ? 'true' : undefined}
-            aria-label={localeLabels[alt.locale].name}
+            aria-label={`${alt.locale.toUpperCase()} (${localeLabels[alt.locale].name})`}
           >
             {alt.locale.toUpperCase()}
           </a>
