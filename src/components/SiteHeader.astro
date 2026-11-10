@@ -1,0 +1,49 @@
+---
+import LanguageSwitcher from './LanguageSwitcher.astro';
+import { getRoutePath, useTranslations, type Locale, type RouteKey } from '../i18n';
+
+interface Props {
+  route: RouteKey;
+  locale: Locale;
+}
+
+const { route, locale } = Astro.props;
+const t = useTranslations(locale);
+const nav = [
+  ['projects', 'nav.projects'],
+  ['lab', 'nav.lab'],
+  ['about', 'nav.about'],
+] as const;
+---
+
+<header class="border-b-2 border-plano-3 bg-fondo-profundo">
+  <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-6 gap-y-3 px-4 py-3 sm:px-6">
+    <a
+      href={getRoutePath('home', locale)}
+      aria-current={route === 'home' ? 'page' : undefined}
+      class="font-display text-2xl tracking-wide text-texto-claro uppercase"
+    >
+      {t('site.name')}
+    </a>
+    <div class="flex flex-wrap items-center gap-x-6 gap-y-3">
+      <nav aria-label={t('nav.label')}>
+        <ul class="flex flex-wrap gap-x-5 gap-y-2">
+          {
+            nav.map(([key, label]) => (
+              <li>
+                <a
+                  href={getRoutePath(key, locale)}
+                  aria-current={route === key ? 'page' : undefined}
+                  class="py-2 text-texto-suave hover:text-texto-claro aria-[current=page]:text-caqui aria-[current=page]:underline aria-[current=page]:underline-offset-8"
+                >
+                  {t(label)}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+      <LanguageSwitcher route={route} locale={locale} />
+    </div>
+  </div>
+</header>

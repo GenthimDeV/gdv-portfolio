@@ -12,11 +12,12 @@ const alternates = getAlternates(route);
 ---
 
 <nav aria-label={t('lang.switch')}>
-  <ul>
+  <ul class="flex gap-2">
     {
       alternates.map((alt) => (
         <li>
           <a
+            class="inline-block min-w-11 rounded-boton border-2 border-plano-3 px-3 py-2 text-center font-mono text-sm text-texto-suave hover:text-texto-claro aria-[current=true]:border-caqui aria-[current=true]:text-caqui"
             href={alt.path}
             hreflang={localeLabels[alt.locale].hreflang}
             lang={alt.locale}

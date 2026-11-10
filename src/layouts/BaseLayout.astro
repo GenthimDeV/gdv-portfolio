@@ -1,0 +1,46 @@
+---
+import '../styles/global.css';
+import LocaleHead from '../components/LocaleHead.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import { useTranslations, type Locale, type RouteKey } from '../i18n';
+
+interface Props {
+  route: RouteKey;
+  locale: Locale;
+  title?: string;
+  description?: string;
+}
+
+const { route, locale } = Astro.props;
+const t = useTranslations(locale);
+const base = import.meta.env.BASE_URL;
+const title = Astro.props.title ?? (route === 'home' ? t('site.name') : `${t(`page.${route}.title`)} · ${t('site.name')}`);
+const description = Astro.props.description ?? t('site.description');
+---
+
+<html lang={locale}>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
+    <link rel="icon" href={`${base}favicon.ico`} />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+    <LocaleHead route={route} />
+  </head>
+  <body class="flex min-h-screen flex-col overflow-x-clip">
+    <a
+      href="#contenido"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:rounded-boton focus:bg-caqui focus:px-4 focus:py-2 focus:font-semibold focus:text-fondo-profundo"
+    >
+      {t('a11y.skip')}
+    </a>
+    <SiteHeader route={route} locale={locale} />
+    <main id="contenido" tabindex="-1" class="mx-auto w-full max-w-6xl flex-1 px-4 py-10 sm:px-6">
+      <slot />
+    </main>
+    <SiteFooter locale={locale} />
+  </body>
+</html>
