@@ -1,7 +1,8 @@
 ---
-// Proyectos destacados: tres casos alternados, con captura en ventana D (marcador mientras no existan capturas).
+// Proyectos destacados (colección `projects`): casos alternados, con captura en ventana D (marcador mientras no existan capturas).
 import WindowD from './WindowD.astro';
-import { getRoutePath, useTranslations, type DictionaryKey, type Locale } from '../i18n';
+import { getRoutePath, useTranslations, type Locale } from '../i18n';
+import { getFeaturedProjects } from '../lib/projects';
 
 interface Props {
   locale: Locale;
@@ -10,22 +11,7 @@ interface Props {
 const { locale } = Astro.props;
 const t = useTranslations(locale);
 
-interface Project {
-  n: string;
-  meta: DictionaryKey;
-  title: DictionaryKey;
-  desc: DictionaryKey;
-  shot: DictionaryKey;
-  stack: string;
-  live: DictionaryKey;
-  tone: 'plano' | 'plano-2';
-}
-
-const projects: Project[] = [
-  { n: '01', meta: 'projects.1.meta', title: 'projects.1.title', desc: 'projects.1.desc', shot: 'projects.1.shot', stack: 'React · Django REST Framework · PostgreSQL', live: 'projects.demo', tone: 'plano' },
-  { n: '02', meta: 'projects.2.meta', title: 'projects.2.title', desc: 'projects.2.desc', shot: 'projects.2.shot', stack: 'React · Django REST Framework', live: 'projects.demo', tone: 'plano-2' },
-  { n: '03', meta: 'projects.3.meta', title: 'projects.3.title', desc: 'projects.3.desc', shot: 'projects.3.shot', stack: 'Astro · Tailwind CSS', live: 'projects.view', tone: 'plano' },
-];
+const projects = await getFeaturedProjects(locale);
 
 const link = 'py-2 text-caqui underline underline-offset-4 hover:text-texto-claro';
 ---
@@ -45,27 +31,28 @@ const link = 'py-2 text-caqui underline underline-offset-4 hover:text-texto-clar
     </div>
 
     {
-      projects.map((p, i) => {
+      projects.map(({ data: p }, i) => {
         const reverse = i % 2 === 1;
+        const n = String(i + 1).padStart(2, '0');
         return (
           <article class={`flex items-center gap-12 ${reverse ? 'flex-wrap-reverse' : 'flex-wrap'}`}>
             <div class={`min-w-0 flex-[1_1_480px] ${reverse ? 'order-2' : ''}`}>
-              <WindowD tone={p.tone} shadow={reverse ? 'left' : 'right'}>
-                <span class="px-4 text-center font-mono text-sm text-texto-apagado">{t(p.shot)}</span>
+              <WindowD tone={reverse ? 'plano-2' : 'plano'} shadow={reverse ? 'left' : 'right'}>
+                <span class="px-4 text-center font-mono text-sm text-texto-apagado">{p.screenshotAlt}</span>
               </WindowD>
             </div>
             <div class={`flex min-w-0 flex-[1_1_340px] flex-col gap-4 ${reverse ? 'order-1' : ''}`}>
               <p class="font-mono text-xs tracking-[2px] text-caqui uppercase">
-                {p.n} · {t(p.meta)}
+                {n} · {p.kind}
               </p>
-              <h3 class="font-display text-[2.5rem] leading-[1.05] text-texto-claro uppercase">{t(p.title)}</h3>
-              <p class="text-[1.0625rem] leading-relaxed text-texto-suave">{t(p.desc)}</p>
-              <p class="font-mono text-[13px] text-texto-apagado">{p.stack}</p>
+              <h3 class="font-display text-[2.5rem] leading-[1.05] text-texto-claro uppercase">{p.title}</h3>
+              <p class="text-[1.0625rem] leading-relaxed text-texto-suave">{p.summary}</p>
+              <p class="font-mono text-[13px] text-texto-apagado">{p.stack.join(' · ')}</p>
               <div class="flex flex-wrap gap-x-5 gap-y-1 pt-1 text-[15px] font-semibold">
                 <a href={getRoutePath('projects', locale)} class={link}>
                   {t('projects.case')} <span aria-hidden="true">→</span>
                 </a>
-                <a href="#" class={link}>{t(p.live)}</a>
+                <a href="#" class={link}>{t(p.liveLabel === 'view' ? 'projects.view' : 'projects.demo')}</a>
                 <a href="#" class={link}>{t('projects.code')}</a>
               </div>
             </div>
