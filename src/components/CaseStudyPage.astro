@@ -1,9 +1,11 @@
 ---
-// Provisional: la plantilla real del caso de estudio llega en 3.3.
+// Plantilla del caso de estudio: cabecera con ficha, captura en ventana D, cuerpo Markdown y enlaces.
+// Rol, fechas, stack, estado y enlaces salen del frontmatter; lo que no exista no se muestra.
 import { render } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import WindowD from './WindowD.astro';
+import { getRoutePath, useTranslations, type DictionaryKey, type Locale } from '../i18n';
 import { projectSlug, type Project } from '../lib/projects';
-import type { Locale } from '../i18n';
 
 interface Props {
   project: Project;
@@ -11,21 +13,96 @@ interface Props {
 }
 
 const { project, locale } = Astro.props;
+const { data: p } = project;
+const t = useTranslations(locale);
 const { Content } = await render(project);
+
+const fmt = new Intl.DateTimeFormat(locale, { month: 'long', year: 'numeric', timeZone: 'UTC' });
+const dates = [p.startDate, p.endDate].filter((d): d is Date => !!d).map((d) => fmt.format(d));
+const datesText = dates.length === 2 ? `${dates[0]} – ${dates[1]}` : dates[0];
+
+const facts = [
+  { label: t('case.status'), value: t(`case.status.${p.status}` as DictionaryKey) },
+  { label: t('case.role'), value: p.role },
+  ...(datesText ? [{ label: t('case.dates'), value: datesText }] : []),
+  { label: t('case.stack'), value: p.stack.join(' · ') },
+];
+
+const link = 'py-2 text-caqui underline underline-offset-4 hover:text-texto-claro';
+const hasLinks = !!(p.demoUrl || p.codeUrl);
+
+// El Markdown no lleva clases: se estiliza aquí por selectores del contenedor.
+const prose = [
+  'space-y-4 text-[1.0625rem] leading-relaxed text-texto-suave',
+  '[&_h2]:mt-12 [&_h2]:mb-2 [&_h2]:font-display [&_h2]:text-3xl [&_h2]:leading-none [&_h2]:text-texto-claro [&_h2]:uppercase sm:[&_h2]:text-4xl',
+  '[&_h3]:mt-8 [&_h3]:font-semibold [&_h3]:text-texto-claro',
+  '[&_ul]:list-disc [&_ul]:space-y-2 [&_ul]:pl-6 [&_ol]:list-decimal [&_ol]:space-y-2 [&_ol]:pl-6',
+  '[&_a]:text-caqui [&_a]:underline [&_a]:underline-offset-4 [&_a:hover]:text-texto-claro',
+  '[&_strong]:text-texto-claro [&_code]:font-mono [&_code]:text-[0.9em] [&_code]:text-texto-claro',
+].join(' ');
 ---
 
 <BaseLayout
   route="projects"
   locale={locale}
   projectSlug={projectSlug(project)}
-  title={`${project.data.title} · GenthimDeV`}
-  description={project.data.summary}
+  title={`${p.title} · GenthimDeV`}
+  description={p.summary}
 >
-  <article class="mx-auto w-full max-w-3xl px-4 py-10 sm:px-6">
-    <h1 class="font-display text-4xl tracking-wide text-texto-claro uppercase sm:text-6xl">{project.data.title}</h1>
-    <p class="mt-4 text-texto-suave">{project.data.summary}</p>
-    <div class="mt-8 space-y-4 text-texto-suave">
+  <article class="mx-auto w-full max-w-4xl px-4 py-10 sm:px-6 sm:py-16">
+    <a href={getRoutePath('projects', locale)} class={`inline-block text-[15px] font-semibold ${link}`}>
+      <span aria-hidden="true">←</span> {t('case.back')}
+    </a>
+
+    <header class="mt-6">
+      <p class="font-mono text-xs tracking-[2px] text-caqui uppercase">{p.kind}</p>
+      <h1 class="mt-3 font-display text-[clamp(2.75rem,7vw,4.5rem)] leading-none text-texto-claro uppercase">
+        {p.title}
+      </h1>
+      <p class="mt-5 max-w-2xl text-[1.0625rem] leading-relaxed text-texto-suave">{p.summary}</p>
+
+      <dl class="mt-8 grid gap-x-8 gap-y-4 border-t border-texto-apagado/40 pt-6 sm:grid-cols-2">
+        {
+          facts.map((f) => (
+            <div>
+              <dt class="font-mono text-xs tracking-[2px] text-texto-apagado uppercase">{f.label}</dt>
+              <dd class="mt-1 text-texto-claro">{f.value}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </header>
+
+    <div class="mt-12">
+      <WindowD>
+        <span class="px-4 text-center font-mono text-sm text-texto-apagado">{p.screenshotAlt}</span>
+      </WindowD>
+    </div>
+
+    <div class={`mt-12 ${prose}`}>
       <Content />
     </div>
+
+    {
+      hasLinks && (
+        <section aria-labelledby="caso-enlaces" class="mt-14 border-t border-texto-apagado/40 pt-8">
+          <h2 id="caso-enlaces" class="font-display text-3xl leading-none text-texto-claro uppercase sm:text-4xl">
+            {t('case.links')}
+          </h2>
+          <div class="mt-4 flex flex-wrap gap-x-6 gap-y-1 text-[15px] font-semibold">
+            {p.demoUrl && (
+              <a href={p.demoUrl} class={link} rel="noopener">
+                {t(p.liveLabel === 'view' ? 'projects.view' : 'projects.demo')}
+              </a>
+            )}
+            {p.codeUrl && (
+              <a href={p.codeUrl} class={link} rel="noopener">
+                {t('projects.code')}
+              </a>
+            )}
+          </div>
+        </section>
+      )
+    }
   </article>
 </BaseLayout>
