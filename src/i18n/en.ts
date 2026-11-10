@@ -50,6 +50,11 @@ export const en: Record<DictionaryKey, string> = {
   'lab.index.lead': 'Small interface and motion tests, made with planes and no libraries.',
   'lab.n': 'Experiment',
   'lab.link': 'See the experiment',
+  'lab.d.label': 'Through the D, in four scenes',
+  'lab.d.s1': '01 · Scene 1 of 4',
+  'lab.d.s2': '02 · Scene 2 of 4',
+  'lab.d.s3': '03 · Scene 3 of 4',
+  'lab.d.s4': '04 · Back to the start',
   'hero.eyebrow': 'Full-stack developer · Havana, Cuba',
   'hero.title': 'I find order in complex systems.',
   'hero.lead':

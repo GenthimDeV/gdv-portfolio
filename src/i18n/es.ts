@@ -48,6 +48,11 @@ export const es = {
   'lab.index.lead': 'Pruebas pequeñas de interfaz y movimiento, hechas con planos y sin librerías.',
   'lab.n': 'Experimento',
   'lab.link': 'Ver el experimento',
+  'lab.d.label': 'Atravesar la D, en cuatro escenas',
+  'lab.d.s1': '01 · Escena 1 de 4',
+  'lab.d.s2': '02 · Escena 2 de 4',
+  'lab.d.s3': '03 · Escena 3 de 4',
+  'lab.d.s4': '04 · De vuelta al principio',
   'hero.eyebrow': 'Desarrollador full-stack · La Habana, Cuba',
   'hero.title': 'Encuentro el orden en sistemas complejos.',
   'hero.lead':

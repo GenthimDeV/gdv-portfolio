@@ -10,7 +10,7 @@ La D del logo no es una letra: es una abertura. Este experimento la usa como pue
 
 ## Cómo funciona
 
-[...] El experimento interactivo llega en la siguiente entrega. Aquí se explicará el zoom por escenas, el avance con el scroll y lo que ve quien prefiere menos movimiento.
+Cuatro escenas se apilan y el scroll las escala de forma exponencial: cada una crece hasta que su hueco cubre la pantalla, y el hueco tiene el color del fondo de la siguiente, así que el paso es continuo. Solo se animan `transform` y `opacity`, con un único script de unas pocas líneas y sin librerías.
 
 ## Accesibilidad
 

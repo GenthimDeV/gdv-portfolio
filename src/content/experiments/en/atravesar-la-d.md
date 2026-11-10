@@ -10,7 +10,7 @@ The D in the logo is not a letter: it is an opening. This experiment uses it as 
 
 ## How it works
 
-[...] The interactive experiment arrives in the next delivery. This is where the scene-by-scene zoom, the scroll-driven movement and what people who prefer less motion see will be explained.
+Four scenes are stacked and scrolling scales them exponentially: each one grows until its gap covers the screen, and the gap has the colour of the next scene's background, so the crossing is continuous. Only `transform` and `opacity` are animated, with a single script of a few lines and no libraries.
 
 ## Accessibility
 
