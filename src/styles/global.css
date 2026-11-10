@@ -1,1 +1,56 @@
 @import "tailwindcss";
+
+/* Fuentes alojadas en el sitio (@fontsource): sin CDN externos. Solo subconjunto latino. */
+@import "@fontsource/anton/latin-400.css";
+@import "@fontsource/antonio/latin-100.css";
+@import "@fontsource-variable/inter/wght.css";
+@import "@fontsource-variable/jetbrains-mono/wght.css";
+
+/*
+ * Tokens de diseño: único lugar donde se definen (ver PROJECT_PROFILE).
+ * Tailwind genera de aquí las utilidades: bg-fondo, text-caqui, font-display,
+ * shadow-corte, rounded-d...
+ * Medidos en el logo: fondo y caqui. El resto son aproximaciones del brief.
+ */
+@theme {
+  /* Colores: se retiran los de Tailwind por defecto para no usarlos por error */
+  --color-*: initial;
+  --color-fondo: #2a252c;
+  --color-fondo-profundo: #221d26;
+  --color-plano: #3a3140;
+  --color-plano-2: #332b38;
+  --color-plano-3: #4a4150;
+  --color-sombra: #16131a;
+  --color-caqui: #a99f7b;
+  --color-texto-claro: #f2ebd8;
+  --color-texto: #e9e2d2;
+  --color-texto-suave: #c9c0ae;
+  --color-texto-apagado: #a69e8a; /* brief #8F8775 no cumplía AA (3,5:1 sobre plano) */
+  --color-transparent: transparent;
+  --color-current: currentColor;
+
+  /* Tipografías */
+  --font-display: "Anton", "Impact", sans-serif;
+  --font-fina: "Antonio", "Arial Narrow", sans-serif; /* provisional: subtítulo del logo */
+  --font-sans: "Inter Variable", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono Variable", ui-monospace, monospace;
+
+  /* Sombras duras: una sola luz, arriba a la izquierda (sombra abajo a la derecha) */
+  --shadow-corte-sm: 8px 8px 0 var(--color-sombra);
+  --shadow-corte: 16px 16px 0 var(--color-sombra);
+  --shadow-corte-lg: 22px 22px 0 var(--color-sombra);
+  --shadow-hueco: inset 10px 10px 0 rgb(0 0 0 / 0.38); /* el hueco de la D */
+
+  /* Radios */
+  --radius-plano: 6px;
+  --radius-boton: 4px;
+  --radius-d: 4px 22px 22px 4px; /* botón con forma de D */
+}
+
+@layer base {
+  html {
+    background-color: var(--color-fondo);
+    color: var(--color-texto);
+    font-family: var(--font-sans);
+  }
+}
