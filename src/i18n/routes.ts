@@ -23,6 +23,12 @@ export function getRoutePath(key: RouteKey, locale: Locale): string {
   return `${base}${path}/`;
 }
 
+/** Ruta del CV en PDF (con `base`) en un idioma: `/cv/GenthimDeV-CV-en.pdf`. */
+export function getCvPath(locale: Locale): string {
+  const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+  return `${base}/cv/GenthimDeV-CV-${locale}.pdf`;
+}
+
 /** Segmento (`slug`) de una ruta para `getStaticPaths`; `undefined` en la raíz. */
 export function getSlug(key: RouteKey, locale: Locale): string | undefined {
   return routes[key][locale] || undefined;

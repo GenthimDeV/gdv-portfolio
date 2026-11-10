@@ -1,7 +1,7 @@
 ---
 // Hero del Inicio: texto a la izquierda y composición de planos a la derecha (la D repetida hacia dentro).
 import ButtonD from './ButtonD.astro';
-import { getRoutePath, useTranslations, type Locale } from '../i18n';
+import { getCvPath, getRoutePath, useTranslations, type Locale } from '../i18n';
 
 interface Props {
   locale: Locale;
@@ -28,7 +28,7 @@ const d = 'rounded-[3px_46%_46%_3px/3px_16%_16%_3px]';
       <ButtonD href={getRoutePath('projects', locale)}>
         {t('hero.cta.projects')} <span aria-hidden="true">→</span>
       </ButtonD>
-      <ButtonD variant="outline" href="#">{t('hero.cta.cv')}</ButtonD>
+      <ButtonD variant="outline" href={getCvPath(locale)} download>{t('hero.cta.cv')}</ButtonD>
     </div>
   </div>
 

@@ -1,5 +1,5 @@
 ---
-import { useTranslations, type Locale } from '../i18n';
+import { getCvPath, useTranslations, type Locale } from '../i18n';
 
 interface Props {
   locale: Locale;
@@ -29,8 +29,8 @@ const link = 'py-2 text-caqui underline underline-offset-4 hover:text-texto-clar
             <span class="sr-only">{t('footer.github')}: </span>GitHub
           </a>
         </li>
-        <li><a href="#" class={link}>{t('footer.cv.es')}</a></li>
-        <li><a href="#" class={link}>{t('footer.cv.en')}</a></li>
+        <li><a href={getCvPath('es')} download class={link}>{t('footer.cv.es')}</a></li>
+        <li><a href={getCvPath('en')} download class={link}>{t('footer.cv.en')}</a></li>
       </ul>
     </section>
     <p class="mt-10 font-mono text-xs text-texto-apagado">© {new Date().getFullYear()} {t('site.name')} · {t('footer.place')}</p>
