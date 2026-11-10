@@ -6,6 +6,16 @@
 @import "@fontsource-variable/inter/wght.css";
 @import "@fontsource-variable/jetbrains-mono/wght.css";
 
+/* Reserva con las métricas de Inter: el cambio a la fuente web no reajusta el texto (CLS). */
+@font-face {
+  font-family: "Inter Fallback";
+  src: local("Arial");
+  size-adjust: 107.4%;
+  ascent-override: 90.2%;
+  descent-override: 22.48%;
+  line-gap-override: 0%;
+}
+
 /*
  * Tokens de diseño: único lugar donde se definen (ver PROJECT_PROFILE).
  * Tailwind genera de aquí las utilidades: bg-fondo, text-caqui, font-display,
@@ -32,7 +42,7 @@
   /* Tipografías */
   --font-display: "Anton", "Impact", sans-serif;
   --font-fina: "Antonio", "Arial Narrow", sans-serif; /* Antonio Regular: subtítulo del logo (2.7) */
-  --font-sans: "Inter Variable", system-ui, sans-serif;
+  --font-sans: "Inter Variable", "Inter Fallback", system-ui, sans-serif;
   --font-mono: "JetBrains Mono Variable", ui-monospace, monospace;
 
   /* Sombras duras: una sola luz, arriba a la izquierda (sombra abajo a la derecha) */
