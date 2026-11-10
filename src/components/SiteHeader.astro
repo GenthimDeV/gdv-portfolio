@@ -1,5 +1,6 @@
 ---
 import LanguageSwitcher from './LanguageSwitcher.astro';
+import Logo from './Logo.astro';
 import { getRoutePath, useTranslations, type Locale, type RouteKey } from '../i18n';
 
 interface Props {
@@ -21,9 +22,9 @@ const nav = [
     <a
       href={getRoutePath('home', locale)}
       aria-current={route === 'home' ? 'page' : undefined}
-      class="font-display text-2xl tracking-wide text-texto-claro uppercase"
+      class="block text-caqui hover:text-texto-claro"
     >
-      {t('site.name')}
+      <Logo label={t('site.name')} class="h-9 w-auto" />
     </a>
     <div class="flex flex-wrap items-center gap-x-6 gap-y-3">
       <nav aria-label={t('nav.label')}>

@@ -2,7 +2,7 @@
 
 /* Fuentes alojadas en el sitio (@fontsource): sin CDN externos. Solo subconjunto latino. */
 @import "@fontsource/anton/latin-400.css";
-@import "@fontsource/antonio/latin-100.css";
+@import "@fontsource/antonio/latin-400.css";
 @import "@fontsource-variable/inter/wght.css";
 @import "@fontsource-variable/jetbrains-mono/wght.css";
 
@@ -31,7 +31,7 @@
 
   /* Tipografías */
   --font-display: "Anton", "Impact", sans-serif;
-  --font-fina: "Antonio", "Arial Narrow", sans-serif; /* provisional: subtítulo del logo */
+  --font-fina: "Antonio", "Arial Narrow", sans-serif; /* Antonio Regular: subtítulo del logo (2.7) */
   --font-sans: "Inter Variable", system-ui, sans-serif;
   --font-mono: "JetBrains Mono Variable", ui-monospace, monospace;
 
