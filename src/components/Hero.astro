@@ -1,0 +1,59 @@
+---
+// Hero del Inicio: texto a la izquierda y composición de planos a la derecha (la D repetida hacia dentro).
+import ButtonD from './ButtonD.astro';
+import { getRoutePath, useTranslations, type Locale } from '../i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+
+// La D: esquinas izquierdas casi rectas, derechas muy redondeadas.
+const d = 'rounded-[3px_46%_46%_3px/3px_16%_16%_3px]';
+---
+
+<section aria-labelledby="hero-titulo" class="flex flex-wrap items-center gap-16 pt-6 pb-16 sm:pb-24">
+  <div class="flex min-w-0 flex-[1_1_460px] flex-col gap-7">
+    <p class="font-mono text-[13px] tracking-[2px] text-caqui uppercase">{t('hero.eyebrow')}</p>
+    <h1
+      id="hero-titulo"
+      class="font-display text-[clamp(3rem,7vw,6.5rem)] leading-[0.98] tracking-[0.5px] text-texto-claro uppercase"
+    >
+      {t('hero.title')}
+    </h1>
+    <p class="max-w-[520px] text-lg leading-relaxed text-texto-suave">{t('hero.lead')}</p>
+    <div class="flex flex-wrap gap-4 pt-2">
+      <ButtonD href={getRoutePath('projects', locale)}>
+        {t('hero.cta.projects')} <span aria-hidden="true">→</span>
+      </ButtonD>
+      <ButtonD variant="outline" href="#">{t('hero.cta.cv')}</ButtonD>
+    </div>
+  </div>
+
+  <figure class="m-0 flex min-w-0 flex-[1_1_380px] flex-col items-center gap-4">
+    <div role="img" aria-label={t('hero.art.label')} class="relative aspect-[4/5] w-full max-w-[480px]">
+      <div class="absolute top-[4%] left-0 h-[74%] w-[70%] rounded-plano bg-plano shadow-corte"></div>
+      <div class="absolute right-0 bottom-0 h-[52%] w-[58%] rounded-plano bg-plano-2 shadow-corte"></div>
+      <div class="absolute top-0 left-[30%] h-[40%] w-[64%] rounded-boton border border-caqui opacity-55"></div>
+      <div class="absolute top-[9%] left-[16%] h-[84%] w-[62%] rounded-lg bg-caqui shadow-corte-lg">
+        <div
+          class={`absolute top-[13%] left-[28%] h-[74%] w-[44%] bg-plano-3 shadow-[inset_14px_14px_0_rgb(0_0_0/0.35)] ${d}`}
+        >
+          <div
+            class={`absolute top-[12%] left-[16%] h-[76%] w-[70%] bg-fondo shadow-[inset_10px_10px_0_rgb(0_0_0/0.38)] ${d}`}
+          >
+            <div
+              class={`absolute top-[14%] left-[18%] h-[72%] w-[66%] bg-fondo-profundo shadow-[inset_8px_8px_0_rgb(0_0_0/0.4)] ${d}`}
+            >
+              <div class="absolute top-[30%] left-[30%] flex h-[40%] w-[40%] items-center justify-center rounded-[2px] bg-texto-claro">
+                <div class="h-[46%] w-[3px] bg-fondo-profundo"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </figure>
+</section>

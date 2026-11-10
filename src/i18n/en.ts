@@ -16,6 +16,14 @@ export const en: Record<DictionaryKey, string> = {
   'footer.email': 'Email',
   'footer.github': 'GitHub',
   'footer.rights': 'All rights reserved.',
+  'hero.eyebrow': 'Full-stack developer · Havana, Cuba',
+  'hero.title': 'I find order in complex systems.',
+  'hero.lead':
+    'I build complete web applications, from the interface to the database, and care as much about how they work as how they are used.',
+  'hero.cta.projects': 'View projects',
+  'hero.cta.cv': 'Download CV (PDF)',
+  'hero.art.label':
+    'Composition of overlapping planes: a golden plate with a D-shaped opening that repeats inward',
   'page.home.title': 'Home',
   'page.projects.title': 'Projects',
   'page.lab.title': 'Lab',

@@ -1,4 +1,5 @@
 ---
+import HomePage from '../../components/HomePage.astro';
 import PlaceholderPage from '../../components/PlaceholderPage.astro';
 import { getSlug, routeKeys } from '../../i18n';
 
@@ -14,4 +15,4 @@ export function getStaticPaths() {
 const { route } = Astro.props;
 ---
 
-<PlaceholderPage route={route} locale={locale} />
+{route === 'home' ? <HomePage locale={locale} /> : <PlaceholderPage route={route} locale={locale} />}

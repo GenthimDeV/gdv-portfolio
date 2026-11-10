@@ -1,0 +1,16 @@
+---
+// Inicio: se irá completando con las secciones de 2.3.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from './Hero.astro';
+import type { Locale } from '../i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+---
+
+<BaseLayout route="home" locale={locale}>
+  <Hero locale={locale} />
+</BaseLayout>
