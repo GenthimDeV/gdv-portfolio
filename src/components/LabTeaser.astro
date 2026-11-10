@@ -1,6 +1,7 @@
 ---
 // Adelanto del Laboratorio: texto y tres planos en D que se agrandan hacia la puerta.
-import { getRoutePath, useTranslations, type Locale } from '../i18n';
+import { getExperimentPath, useTranslations, type Locale } from '../i18n';
+import { experimentSlug, getExperiments } from '../lib/experiments';
 
 interface Props {
   locale: Locale;
@@ -8,6 +9,9 @@ interface Props {
 
 const { locale } = Astro.props;
 const t = useTranslations(locale);
+// El adelanto lleva al experimento 01 (el de menor `order`); si no hubiera, no muestra enlace.
+const [first] = await getExperiments(locale);
+const href = first ? getExperimentPath(experimentSlug(first), locale) : undefined;
 const d = 'rounded-[3px_40%_40%_3px/3px_14%_14%_3px]';
 ---
 
@@ -20,12 +24,16 @@ const d = 'rounded-[3px_40%_40%_3px/3px_14%_14%_3px]';
     <p class="font-mono text-xs tracking-[2px] text-caqui uppercase">{t('lab.eyebrow')}</p>
     <h2 id="lab-titulo" class="font-display text-[2.5rem] leading-[1.05] text-texto-claro uppercase">{t('lab.title')}</h2>
     <p class="text-[1.0625rem] leading-relaxed text-texto-suave">{t('lab.text')}</p>
-    <a
-      href={getRoutePath('lab', locale)}
-      class="self-start py-2 text-[15px] font-semibold text-caqui underline underline-offset-4 hover:text-texto-claro"
-    >
-      {t('lab.link')} <span aria-hidden="true">→</span>
-    </a>
+    {
+      href && (
+        <a
+          href={href}
+          class="self-start py-2 text-[15px] font-semibold text-caqui underline underline-offset-4 hover:text-texto-claro"
+        >
+          {t('lab.link')} <span aria-hidden="true">→</span>
+        </a>
+      )
+    }
   </div>
   <div aria-hidden="true" class="flex h-60 min-w-0 flex-[1_1_380px] items-center justify-center">
     <div class={`h-[180px] w-14 bg-plano shadow-corte-sm ${d}`}></div>
