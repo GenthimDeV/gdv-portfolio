@@ -1,0 +1,23 @@
+---
+// Ventana "D" para capturas: plano 16/10 con un hueco en forma de D donde va el contenido.
+// El slot recibe la captura (<img>) o un marcador de texto cuando aún no existe.
+import Plano from './Plano.astro';
+
+interface Props {
+  tone?: 'plano' | 'plano-2';
+  shadow?: 'right' | 'left';
+  class?: string;
+}
+
+const { tone = 'plano', shadow = 'right', class: extra = '' } = Astro.props;
+---
+
+<Plano tone={tone} shadow={shadow} class={`relative aspect-[16/10] w-full ${extra}`}>
+  <div
+    class="absolute inset-x-[7%] inset-y-[9%] flex items-center justify-center overflow-hidden rounded-[3px_24%_24%_3px/3px_28%_28%_3px] bg-fondo shadow-hueco"
+  >
+    <slot>
+      <span class="px-4 text-center font-mono text-sm text-texto-apagado">[…]</span>
+    </slot>
+  </div>
+</Plano>

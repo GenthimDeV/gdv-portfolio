@@ -1,0 +1,33 @@
+---
+// Botón "D": primario (forma de D con sombra dura) o contorno. Enlace si hay href; si no, botón.
+interface Props {
+  href?: string;
+  variant?: 'primary' | 'outline';
+  class?: string;
+  download?: boolean;
+}
+
+const { href, variant = 'primary', class: extra = '', download } = Astro.props;
+
+const base =
+  'inline-flex min-h-13 items-center gap-2.5 px-7 text-base font-semibold no-underline transition-colors';
+const variants = {
+  primary:
+    'rounded-d bg-caqui text-fondo-profundo shadow-corte-sm hover:bg-texto-claro',
+  outline:
+    'rounded-boton border-2 border-caqui text-caqui hover:border-texto-claro hover:text-texto-claro',
+} as const;
+const classes = [base, variants[variant], extra].join(' ');
+---
+
+{
+  href ? (
+    <a href={href} download={download} class={classes}>
+      <slot />
+    </a>
+  ) : (
+    <button type="button" class={classes}>
+      <slot />
+    </button>
+  )
+}

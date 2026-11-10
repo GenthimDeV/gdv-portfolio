@@ -1,0 +1,34 @@
+---
+// Lámina/plano con sombra dura (una sola luz, arriba a la izquierda).
+// `shadow="left"` invierte la sombra solo para composiciones alternadas.
+interface Props {
+  as?: 'div' | 'section' | 'article' | 'figure';
+  tone?: 'plano' | 'plano-2' | 'plano-3' | 'caqui';
+  size?: 'sm' | 'md' | 'lg';
+  shadow?: 'right' | 'left' | 'none';
+  class?: string;
+}
+
+const { as: Tag = 'div', tone = 'plano', size = 'md', shadow = 'right', class: extra = '' } = Astro.props;
+
+const tones = {
+  plano: 'bg-plano',
+  'plano-2': 'bg-plano-2',
+  'plano-3': 'bg-plano-3',
+  caqui: 'bg-caqui text-fondo-profundo',
+} as const;
+const shadows = {
+  right: { sm: 'shadow-corte-sm', md: 'shadow-corte', lg: 'shadow-corte-lg' },
+  left: {
+    sm: 'shadow-[-8px_8px_0_var(--color-sombra)]',
+    md: 'shadow-[-16px_16px_0_var(--color-sombra)]',
+    lg: 'shadow-[-22px_22px_0_var(--color-sombra)]',
+  },
+  none: { sm: '', md: '', lg: '' },
+} as const;
+const classes = ['rounded-plano', tones[tone], shadows[shadow][size], extra].join(' ');
+---
+
+<Tag class={classes}>
+  <slot />
+</Tag>
